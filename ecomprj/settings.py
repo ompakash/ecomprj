@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Custom Apps
     'core',
+    'userauths',
 ]
 
 MIDDLEWARE = [
@@ -145,3 +146,4 @@ JAZZMIN_SETTINGS = {
 }
 
 
+AUTH_USER_MODEL = 'userauths.User'
