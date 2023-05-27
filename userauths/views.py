@@ -5,7 +5,7 @@ from django.contrib import messages
 from userauths.models import User
 from django.conf import settings
 
-User = settings.AUTH_USER_MODEL
+# User = settings.AUTH_USER_MODEL
 
 # Create your views here.
 
@@ -41,18 +41,19 @@ def login_view(request):
         password = request.POST.get('password')
 
         try:
-            user = User.object.get(email = email)
+            user = User.objects.get(email = email)
+            user = authenticate(request,email=email,password=password)
+
+            if user is not None:
+                login(request,user)
+                messages.success(request,"You are logged in.")
+                return redirect('core:index')
+            else:
+                messages.warning(request,'User does not Exist, Create an account.')
         except:
             messages.warning(request,f'user with {email} does not exist')
         
-        user = authenticate(request,email=email,password=password)
-
-        if user is not None:
-            login(request,user)
-            messages.success(request,"You are logged in.")
-            return redirect('core:index')
-        else:
-            messages.warning(request,'User does not Exist with this email.')
+        
     
     context = {
 
